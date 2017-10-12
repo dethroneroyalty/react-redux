@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    command: ["yarn", "start"]
+    restart: always
+    env_file: .env
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./config:/app/config"
+      - "./server:/app/server"
+      - "./public:/app/public"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - "./data:/data"
